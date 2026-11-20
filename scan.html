@@ -16,10 +16,19 @@
 
   <main class="page-container">
     <div class="scan-layout">
-      <!-- 왼쪽: 카메라 영역 + 인식 상태 한 줄 -->
+      <!-- 왼쪽: 카메라 영역 + 진행 막대 + 인식 상태 한 줄 -->
       <section class="kiosk-card" aria-label="카메라 상품 인식">
         <div class="camera-box">
           <video id="camera-video" playsinline muted autoplay></video>
+          <!-- 상품을 담았을 때 1.5초 동안 크게 보여 주는 안내 문구 -->
+          <div id="added-overlay" class="added-overlay" hidden>
+            <span id="added-overlay-text"></span>
+          </div>
+        </div>
+
+        <!-- 후보 유지 시간 진행 막대 (0% ~ 100%) -->
+        <div class="hold-progress-track" aria-label="상품 인식 진행률">
+          <div id="hold-progress-fill" class="hold-progress-fill"></div>
         </div>
 
         <p id="scan-status" class="scan-status is-idle" role="status" aria-live="polite">
@@ -33,20 +42,25 @@
         </div>
       </section>
 
-      <!-- 오른쪽: 장바구니 영역 (이번 단계에서는 담기 기능 없이 틀만 표시) -->
+      <!-- 오른쪽: 장바구니 영역 -->
       <section class="kiosk-card cart-card" aria-label="장바구니">
         <h1 class="cart-title">장바구니</h1>
 
         <div class="cart-body">
-          <p class="cart-empty">아직 담은 상품이 없어요</p>
+          <p id="cart-empty" class="cart-empty">아직 담은 상품이 없어요</p>
+          <ul id="cart-list" class="cart-list" hidden></ul>
         </div>
 
         <div class="cart-footer">
+          <div class="cart-summary-row">
+            <span>총 수량</span>
+            <span id="cart-total-qty">0개</span>
+          </div>
           <div class="cart-total-row">
             <span>합계</span>
-            <span class="cart-total-amount">0원</span>
+            <span id="cart-total-amount" class="cart-total-amount">0원</span>
           </div>
-          <button type="button" class="pay-button" disabled>결제하기</button>
+          <button type="button" id="pay-button" class="pay-button" disabled>결제하기</button>
         </div>
       </section>
     </div>
@@ -55,7 +69,10 @@
   <!-- AGENTS.md 규칙에 따라 고정된 TensorFlow.js 및 Teachable Machine 라이브러리 -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.5/dist/teachablemachine-image.min.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/products.js"></script>
+  <script src="js/judge.js"></script>
+  <script src="js/cart.js"></script>
   <script src="js/recognizer.js"></script>
   <script src="js/scan.js"></script>
 </body>

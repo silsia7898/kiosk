@@ -61,10 +61,16 @@
     return Math.round(numericAmount).toLocaleString("ko-KR") + "원";
   }
 
-  // 다른 스크립트에서 사용할 수 있도록 전역 객체에 등록합니다.
-  global.ProductCatalog = {
+  // 브라우저와 Node.js 환경 모두에서 사용할 수 있도록 내보냅니다.
+  const ProductCatalog = {
     list: PRODUCTS,
     findByClassName: findProductByClassName,
     formatPrice: formatPrice
   };
-})(window);
+
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = ProductCatalog;
+  } else {
+    global.ProductCatalog = ProductCatalog;
+  }
+})(typeof window !== "undefined" ? window : globalThis);
