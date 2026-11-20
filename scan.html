@@ -16,35 +16,48 @@
 
   <main class="page-container">
     <div class="scan-layout">
-      <!-- 왼쪽: 카메라 영역 + 진행 막대 + 인식 상태 한 줄 -->
-      <section class="kiosk-card" aria-label="카메라 상품 인식">
-        <div class="camera-box">
-          <video id="camera-video" playsinline muted autoplay></video>
-          <!-- 상품을 담았을 때 1.5초 동안 크게 보여 주는 안내 문구 -->
-          <div id="added-overlay" class="added-overlay" hidden>
-            <span id="added-overlay-text"></span>
+      <!-- 왼쪽: 카메라 영역 + 직접 담기 목록 -->
+      <div class="scan-left">
+        <section class="kiosk-card" aria-label="카메라 상품 인식">
+          <div class="camera-box">
+            <video id="camera-video" playsinline muted autoplay></video>
+            <!-- 상품을 담았을 때 1.5초 동안 크게 보여 주는 안내 문구 -->
+            <div id="added-overlay" class="added-overlay" hidden>
+              <span id="added-overlay-text"></span>
+            </div>
           </div>
-        </div>
 
-        <!-- 후보 유지 시간 진행 막대 (0% ~ 100%) -->
-        <div class="hold-progress-track" aria-label="상품 인식 진행률">
-          <div id="hold-progress-fill" class="hold-progress-fill"></div>
-        </div>
+          <!-- 후보 유지 시간 진행 막대 (0% ~ 100%) -->
+          <div class="hold-progress-track" aria-label="상품 인식 진행률">
+            <div id="hold-progress-fill" class="hold-progress-fill"></div>
+          </div>
 
-        <p id="scan-status" class="scan-status is-idle" role="status" aria-live="polite">
-          모델 불러오는 중...
-        </p>
+          <p id="scan-status" class="scan-status is-idle" role="status" aria-live="polite">
+            모델 불러오는 중...
+          </p>
 
-        <!-- 카메라 또는 모델 오류 발생 시 이유와 해결 방법을 보여줍니다. -->
-        <div id="error-box" class="error-box" hidden>
-          <p id="error-title" class="error-title"></p>
-          <p id="error-guide" class="error-guide"></p>
-        </div>
-      </section>
+          <!-- 카메라 또는 모델 오류 발생 시 이유와 해결 방법을 보여줍니다. -->
+          <div id="error-box" class="error-box" hidden>
+            <p id="error-title" class="error-title"></p>
+            <p id="error-guide" class="error-guide"></p>
+          </div>
+        </section>
+
+        <!-- 인식이 잘 안 되는 상품을 손으로 담는 영역 -->
+        <section class="kiosk-card manual-add-card" aria-label="직접 담기">
+          <h2 class="manual-add-title">직접 담기</h2>
+          <div id="manual-add-list" class="manual-add-grid"></div>
+        </section>
+      </div>
 
       <!-- 오른쪽: 장바구니 영역 -->
       <section class="kiosk-card cart-card" aria-label="장바구니">
-        <h1 class="cart-title">장바구니</h1>
+        <div class="cart-header">
+          <h1 class="cart-title">장바구니</h1>
+          <button type="button" id="clear-cart-button" class="clear-cart-button" hidden>
+            전체 비우기
+          </button>
+        </div>
 
         <div class="cart-body">
           <p id="cart-empty" class="cart-empty">아직 담은 상품이 없어요</p>

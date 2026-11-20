@@ -1,4 +1,4 @@
-// 계산 화면(scan.html)의 판정 규칙 연결, 카메라 오버레이, 장바구니 화면 갱신을 담당합니다.
+// 계산 화면(scan.html)의 판정 규칙 연결, 직접 담기, 장바구니 수정 기능을 담당합니다.
 (function () {
   "use strict";
 
@@ -10,7 +10,9 @@
   const errorBox = document.getElementById("error-box");
   const errorTitle = document.getElementById("error-title");
   const errorGuide = document.getElementById("error-guide");
+  const manualAddList = document.getElementById("manual-add-list");
 
+  const clearCartButton = document.getElementById("clear-cart-button");
   const cartEmpty = document.getElementById("cart-empty");
   const cartList = document.getElementById("cart-list");
   const cartTotalQty = document.getElementById("cart-total-qty");
@@ -57,7 +59,57 @@
     }, 1500);
   }
 
-  // 장바구니 목록, 총 수량, 합계 금액, 결제하기 버튼 상태를 화면에 그립니다.
+  // 방금 담긴 상품 줄을 잠깐 강조합니다.
+  function highlightCartItem(className) {
+    highlightedClassName = className;
+    if (highlightTimerId !== null) {
+      clearTimeout(highlightTimerId);
+    }
+    renderCart();
+
+    highlightTimerId = setTimeout(function () {
+      highlightedClassName = null;
+      highlightTimerId = null;
+      renderCart();
+    }, 1500);
+  }
+
+  // 상품을 장바구니에 1개 담고 안내 문구와 줄 강조를 함께 실행합니다.
+  function addProductWithFeedback(product) {
+    window.KioskCart.addItem(product);
+    showAddedOverlay(product.name);
+    highlightCartItem(product.className);
+  }
+
+  // 가격표의 모든 상품으로 "직접 담기" 버튼 목록을 만듭니다.
+  function renderManualAddButtons() {
+    manualAddList.innerHTML = "";
+
+    window.ProductCatalog.list.forEach(function (product) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "manual-add-button";
+
+      const nameSpan = document.createElement("span");
+      nameSpan.className = "manual-add-name";
+      nameSpan.textContent = product.name;
+
+      const priceSpan = document.createElement("span");
+      priceSpan.className = "manual-add-price";
+      priceSpan.textContent = window.ProductCatalog.formatPrice(product.price);
+
+      button.appendChild(nameSpan);
+      button.appendChild(priceSpan);
+
+      button.addEventListener("click", function () {
+        addProductWithFeedback(product);
+      });
+
+      manualAddList.appendChild(button);
+    });
+  }
+
+  // 장바구니 목록, 수량 조절/삭제 버튼, 총 수량, 합계 금액, 결제하기 버튼 상태를 그립니다.
   function renderCart() {
     const items = window.KioskCart.getItems();
     const summary = window.KioskCart.getSummary();
@@ -65,6 +117,7 @@
     cartTotalQty.textContent = summary.totalQuantity + "개";
     cartTotalAmount.textContent = window.ProductCatalog.formatPrice(summary.totalPrice);
     payButton.disabled = summary.totalQuantity === 0;
+    clearCartButton.hidden = items.length === 0;
 
     if (items.length === 0) {
       cartEmpty.hidden = false;
@@ -84,53 +137,92 @@
         li.classList.add("is-just-added");
       }
 
+      // 윗줄: 상품 이름과 금액(가격 × 수량)
+      const topRow = document.createElement("div");
+      topRow.className = "cart-item-top";
+
       const nameSpan = document.createElement("span");
       nameSpan.className = "cart-item-name";
       nameSpan.textContent = item.name;
-
-      const qtySpan = document.createElement("span");
-      qtySpan.className = "cart-item-qty";
-      qtySpan.textContent = item.quantity + "개";
 
       const priceSpan = document.createElement("span");
       priceSpan.className = "cart-item-price";
       priceSpan.textContent = window.ProductCatalog.formatPrice(item.price * item.quantity);
 
-      li.appendChild(nameSpan);
-      li.appendChild(qtySpan);
-      li.appendChild(priceSpan);
+      topRow.appendChild(nameSpan);
+      topRow.appendChild(priceSpan);
+
+      // 아랫줄: 수량 조절(−, +) 버튼과 삭제 버튼
+      const controlsRow = document.createElement("div");
+      controlsRow.className = "cart-item-controls";
+
+      const qtyGroup = document.createElement("div");
+      qtyGroup.className = "qty-control-group";
+
+      const minusBtn = document.createElement("button");
+      minusBtn.type = "button";
+      minusBtn.className = "qty-button";
+      minusBtn.setAttribute("aria-label", item.name + " 수량 줄이기");
+      minusBtn.textContent = "−";
+      minusBtn.addEventListener("click", function () {
+        window.KioskCart.changeQuantity(item.className, -1);
+        renderCart();
+      });
+
+      const qtySpan = document.createElement("span");
+      qtySpan.className = "cart-item-qty";
+      qtySpan.textContent = item.quantity + "개";
+
+      const plusBtn = document.createElement("button");
+      plusBtn.type = "button";
+      plusBtn.className = "qty-button";
+      plusBtn.setAttribute("aria-label", item.name + " 수량 늘리기");
+      plusBtn.textContent = "+";
+      plusBtn.addEventListener("click", function () {
+        window.KioskCart.changeQuantity(item.className, 1);
+        renderCart();
+      });
+
+      qtyGroup.appendChild(minusBtn);
+      qtyGroup.appendChild(qtySpan);
+      qtyGroup.appendChild(plusBtn);
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.className = "delete-item-button";
+      deleteBtn.textContent = "삭제";
+      deleteBtn.addEventListener("click", function () {
+        window.KioskCart.removeItem(item.className);
+        renderCart();
+      });
+
+      controlsRow.appendChild(qtyGroup);
+      controlsRow.appendChild(deleteBtn);
+
+      li.appendChild(topRow);
+      li.appendChild(controlsRow);
       cartList.appendChild(li);
     });
   }
 
-  // 방금 담긴 상품 줄을 잠깐 강조합니다.
-  function highlightCartItem(className) {
-    highlightedClassName = className;
-    if (highlightTimerId !== null) {
-      clearTimeout(highlightTimerId);
-    }
-    renderCart();
-
-    highlightTimerId = setTimeout(function () {
+  // 전체 비우기 버튼 클릭 시 확인 후 장바구니를 비웁니다.
+  clearCartButton.addEventListener("click", function () {
+    if (window.confirm("장바구니를 모두 비울까요?")) {
+      window.KioskCart.clear();
       highlightedClassName = null;
-      highlightTimerId = null;
       renderCart();
-    }, 1500);
-  }
+    }
+  });
 
   // 예측 결과가 나올 때마다 판정 규칙에 넣고 화면을 갱신합니다.
   function handleResult(results) {
     const decision = judge.evaluate(results, Date.now());
 
-    // 후보 진행 막대 갱신 (후보가 사라지면 바로 0%로 비웁니다)
     const percentWidth = Math.round(decision.progress * 100);
     progressFill.style.width = percentWidth + "%";
 
-    // "담기" 판정이 나면 장바구니에 추가하고 안내를 띄웁니다.
     if (decision.addedProduct) {
-      window.KioskCart.addItem(decision.addedProduct);
-      showAddedOverlay(decision.addedProduct.name);
-      highlightCartItem(decision.addedProduct.className);
+      addProductWithFeedback(decision.addedProduct);
       setStatus(decision.addedProduct.name + " 담았어요", "active");
       return;
     }
@@ -149,7 +241,8 @@
     setStatus("상품을 카메라에 비춰 주세요", "idle");
   }
 
-  // 페이지에 들어올 때 sessionStorage에 저장된 장바구니를 바로 표시합니다.
+  // 초기 화면 렌더링
+  renderManualAddButtons();
   renderCart();
 
   // 인식기와 카메라를 시작합니다.

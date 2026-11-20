@@ -72,6 +72,49 @@
   }
 
   /**
+   * 특정 상품의 수량을 delta(+1 또는 -1)만큼 바꿉니다.
+   * 수량이 0 이하가 되면 장바구니에서 해당 줄을 삭제합니다.
+   * @param {string} className
+   * @param {number} delta
+   */
+  function changeQuantity(className, delta) {
+    const items = loadItems();
+    const nextItems = [];
+
+    items.forEach(function (item) {
+      if (item.className !== className) {
+        nextItems.push(item);
+        return;
+      }
+
+      const nextQty = item.quantity + delta;
+      if (nextQty > 0) {
+        nextItems.push({
+          className: item.className,
+          name: item.name,
+          price: item.price,
+          quantity: nextQty
+        });
+      }
+    });
+
+    saveItems(nextItems);
+    return nextItems;
+  }
+
+  /**
+   * 특정 상품을 장바구니에서 완전히 삭제합니다.
+   * @param {string} className
+   */
+  function removeItem(className) {
+    const items = loadItems().filter(function (item) {
+      return item.className !== className;
+    });
+    saveItems(items);
+    return items;
+  }
+
+  /**
    * 장바구니의 총 수량과 총 금액을 계산합니다.
    * @returns {{ totalQuantity: number, totalPrice: number }}
    */
@@ -101,6 +144,8 @@
   global.KioskCart = {
     getItems: getItems,
     addItem: addItem,
+    changeQuantity: changeQuantity,
+    removeItem: removeItem,
     getSummary: getSummary,
     clear: clear
   };
