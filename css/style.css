@@ -696,6 +696,256 @@ body {
   padding: 0.5rem 0;
 }
 
+/* ===== 결제 화면 (pay.html) 및 완료 화면 (receipt.html) ===== */
+.empty-state-card {
+  max-width: 480px;
+  margin: 1.5rem auto;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.empty-state-card[hidden] {
+  display: none;
+}
+
+.empty-state-message {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+.pay-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.pay-layout[hidden] {
+  display: none;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 1rem;
+}
+
+.order-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.order-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.65rem;
+  background-color: #f8fafc;
+  border: 1px solid var(--border-light);
+}
+
+.order-row-name {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.order-row-qty {
+  font-weight: 600;
+  color: var(--text-sub);
+  font-size: 0.95rem;
+}
+
+.order-row-price {
+  font-weight: 800;
+  min-width: 4.75rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.pay-summary {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.pay-total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.pay-total-amount {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.payment-method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.method-button {
+  min-height: 64px;
+  padding: 0.85rem 0.5rem;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-light);
+  background-color: #f8fafc;
+  color: var(--text-main);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.method-button:hover:not(:disabled):not(.is-selected) {
+  border-color: var(--accent);
+  background-color: var(--accent-soft);
+}
+
+.method-button.is-selected {
+  border-color: var(--accent);
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+.method-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pay-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  background-color: #f1f5f9;
+}
+
+.secondary-button.is-disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.receipt-wrap {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.receipt-wrap[hidden] {
+  display: none;
+}
+
+.receipt-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.receipt-banner {
+  text-align: center;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.receipt-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+}
+
+.receipt-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  background-color: #f8fafc;
+  border: 1px solid var(--border-light);
+}
+
+.receipt-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.98rem;
+}
+
+.receipt-meta-row dt {
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.receipt-meta-row dd {
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.receipt-subtitle {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.receipt-total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border-light);
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.full-width-button {
+  width: 100%;
+  text-align: center;
+}
+
+.receipt-notice {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
 /* ===== 모바일 및 태블릿 반응형 (375px 포함) ===== */
 @media (max-width: 760px) {
   .page-container {
@@ -719,6 +969,14 @@ body {
   }
 
   .scan-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pay-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-method-grid {
     grid-template-columns: 1fr;
   }
 

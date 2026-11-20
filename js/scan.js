@@ -214,6 +214,14 @@
     }
   });
 
+  // 결제하기 버튼 클릭 시 결제 화면으로 이동합니다.
+  payButton.addEventListener("click", function () {
+    if (window.KioskCart.getItems().length === 0) {
+      return;
+    }
+    window.location.href = "pay.html";
+  });
+
   // 예측 결과가 나올 때마다 판정 규칙에 넣고 화면을 갱신합니다.
   function handleResult(results) {
     const decision = judge.evaluate(results, Date.now());

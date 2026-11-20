@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제 완료 - 몽글 마트 무인 계산대</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 공통 상단 헤더 -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-link">몽글 마트</a>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <!-- 결제 내역 없이 바로 들어왔을 때 보여 주는 안내 영역 -->
+    <section id="receipt-empty-card" class="kiosk-card empty-state-card" hidden>
+      <p class="empty-state-message">주문 내역이 없어요</p>
+      <a href="index.html" class="primary-button">시작 화면으로 가기</a>
+    </section>
+
+    <!-- 결제가 완료되었을 때 보여 주는 영수증 영역 -->
+    <div id="receipt-content" class="receipt-wrap" hidden>
+      <section class="kiosk-card receipt-card" aria-label="결제 완료 영수증">
+        <div class="receipt-banner">
+          <h1 class="receipt-title">결제가 완료되었습니다</h1>
+        </div>
+
+        <dl class="receipt-meta">
+          <div class="receipt-meta-row">
+            <dt>주문 번호</dt>
+            <dd id="receipt-order-number">-</dd>
+          </div>
+          <div class="receipt-meta-row">
+            <dt>결제 시각</dt>
+            <dd id="receipt-paid-at">-</dd>
+          </div>
+          <div class="receipt-meta-row">
+            <dt>결제 수단</dt>
+            <dd id="receipt-method">-</dd>
+          </div>
+        </dl>
+
+        <h2 class="receipt-subtitle">주문 내역</h2>
+        <ul id="receipt-order-list" class="order-list"></ul>
+
+        <div class="receipt-total-row">
+          <span>합계</span>
+          <span id="receipt-total-amount" class="pay-total-amount">0원</span>
+        </div>
+
+        <button type="button" id="new-order-button" class="primary-button full-width-button">
+          새 주문 시작
+        </button>
+      </section>
+
+      <p class="receipt-notice">실습용 화면입니다. 실제 결제는 이루어지지 않았습니다.</p>
+    </div>
+  </main>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/receipt-data.js"></script>
+  <script src="js/receipt.js"></script>
+</body>
+</html>
