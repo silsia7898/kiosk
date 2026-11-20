@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상품 계산 - 몽글 마트 무인 계산대</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 공통 상단 헤더 -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-link">몽글 마트</a>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <div class="scan-layout">
+      <!-- 왼쪽: 카메라 영역 + 인식 상태 한 줄 -->
+      <section class="kiosk-card" aria-label="카메라 상품 인식">
+        <div class="camera-box">
+          <video id="camera-video" playsinline muted autoplay></video>
+        </div>
+
+        <p id="scan-status" class="scan-status is-idle" role="status" aria-live="polite">
+          모델 불러오는 중...
+        </p>
+
+        <!-- 카메라 또는 모델 오류 발생 시 이유와 해결 방법을 보여줍니다. -->
+        <div id="error-box" class="error-box" hidden>
+          <p id="error-title" class="error-title"></p>
+          <p id="error-guide" class="error-guide"></p>
+        </div>
+      </section>
+
+      <!-- 오른쪽: 장바구니 영역 (이번 단계에서는 담기 기능 없이 틀만 표시) -->
+      <section class="kiosk-card cart-card" aria-label="장바구니">
+        <h1 class="cart-title">장바구니</h1>
+
+        <div class="cart-body">
+          <p class="cart-empty">아직 담은 상품이 없어요</p>
+        </div>
+
+        <div class="cart-footer">
+          <div class="cart-total-row">
+            <span>합계</span>
+            <span class="cart-total-amount">0원</span>
+          </div>
+          <button type="button" class="pay-button" disabled>결제하기</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- AGENTS.md 규칙에 따라 고정된 TensorFlow.js 및 Teachable Machine 라이브러리 -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.5/dist/teachablemachine-image.min.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/recognizer.js"></script>
+  <script src="js/scan.js"></script>
+</body>
+</html>

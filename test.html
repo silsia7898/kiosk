@@ -7,37 +7,46 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <main class="test-page">
-    <header class="test-header">
-      <h1>인식 테스트</h1>
-      <a href="index.html" class="back-link">처음으로</a>
-    </header>
-
-    <!-- 현재 진행 상태 안내 -->
-    <div id="status-banner" class="status-banner" role="status" aria-live="polite">
-      모델 불러오는 중...
+  <!-- 공통 상단 헤더: 다른 화면과 동일한 헤더를 사용합니다. -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-link">몽글 마트</a>
     </div>
+  </header>
 
-    <!-- 카메라 또는 모델 오류 발생 시 이유와 해결 방법을 보여줍니다. -->
-    <section id="error-box" class="error-box" hidden>
-      <p id="error-title" class="error-title"></p>
-      <p id="error-guide" class="error-guide"></p>
-    </section>
-
-    <!-- 가운데 정사각형만 잘라 거울 모드로 보여 주는 카메라 영역 -->
-    <section class="camera-card" aria-label="카메라 영상">
-      <div class="camera-box">
-        <video id="camera-video" playsinline muted autoplay></video>
+  <main class="page-container">
+    <div class="test-page">
+      <div class="test-header">
+        <h1>인식 테스트</h1>
+        <a href="index.html" class="back-link">처음으로</a>
       </div>
-    </section>
 
-    <!-- 모델에서 읽어 온 모든 클래스의 확률 목록 -->
-    <section class="prediction-card" aria-label="인식 결과">
-      <h2>인식 결과</h2>
-      <ul id="prediction-list" class="prediction-list">
-        <li class="empty-hint">모델을 불러오면 클래스 목록이 표시됩니다.</li>
-      </ul>
-    </section>
+      <!-- 현재 진행 상태 안내 -->
+      <div id="status-banner" class="status-banner" role="status" aria-live="polite">
+        모델 불러오는 중...
+      </div>
+
+      <!-- 카메라 또는 모델 오류 발생 시 이유와 해결 방법을 보여줍니다. -->
+      <section id="error-box" class="error-box" hidden>
+        <p id="error-title" class="error-title"></p>
+        <p id="error-guide" class="error-guide"></p>
+      </section>
+
+      <!-- 가운데 정사각형만 잘라 거울 모드로 보여 주는 카메라 영역 -->
+      <section class="kiosk-card" aria-label="카메라 영상">
+        <div class="camera-box">
+          <video id="camera-video" playsinline muted autoplay></video>
+        </div>
+      </section>
+
+      <!-- 모델에서 읽어 온 모든 클래스의 확률 목록 -->
+      <section class="kiosk-card prediction-card" aria-label="인식 결과">
+        <h2>인식 결과</h2>
+        <ul id="prediction-list" class="prediction-list">
+          <li class="empty-hint">모델을 불러오면 클래스 목록이 표시됩니다.</li>
+        </ul>
+      </section>
+    </div>
   </main>
 
   <!-- AGENTS.md 규칙에 따라 고정된 TensorFlow.js 및 Teachable Machine 라이브러리 -->

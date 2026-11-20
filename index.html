@@ -7,10 +7,45 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <main class="container home-container">
-    <h1>AI 무인 계산대 준비 중</h1>
-    <!-- 인식 테스트 화면으로 이동하는 링크 -->
-    <a href="test.html" class="nav-button">인식 테스트</a>
+  <!-- 공통 상단 헤더: 가게 이름을 누르면 시작 화면으로 돌아옵니다. -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-link">몽글 마트</a>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <!-- 시작 안내 및 계산 시작 버튼 -->
+    <section class="home-hero">
+      <h1>상품을 카메라에 비춰 주세요</h1>
+      <p class="home-subtitle">AI가 상품을 자동으로 알아보고 장바구니 합계를 계산해 드립니다.</p>
+      <a href="scan.html" class="primary-button">계산 시작</a>
+    </section>
+
+    <!-- 이용 방법 카드 3개 -->
+    <section class="guide-grid" aria-label="이용 방법">
+      <article class="guide-card">
+        <span class="guide-step">1</span>
+        <h2 class="guide-title">1 상품 비추기</h2>
+        <p class="guide-desc">카메라 중앙에 상품을 하나씩 비춰 주세요.</p>
+      </article>
+      <article class="guide-card">
+        <span class="guide-step">2</span>
+        <h2 class="guide-title">2 장바구니 확인</h2>
+        <p class="guide-desc">담긴 상품 목록과 합계 금액을 확인하세요.</p>
+      </article>
+      <article class="guide-card">
+        <span class="guide-step">3</span>
+        <h2 class="guide-title">3 결제하기</h2>
+        <p class="guide-desc">결제 버튼을 눌러 계산을 마무리하세요.</p>
+      </article>
+    </section>
+
+    <!-- 하단 인식 테스트 링크 및 실습 안내 -->
+    <footer class="home-footer">
+      <a href="test.html" class="text-link">인식 테스트</a>
+      <p>실습용 서비스입니다. 실제 결제는 이루어지지 않습니다.</p>
+    </footer>
   </main>
 </body>
 </html>
